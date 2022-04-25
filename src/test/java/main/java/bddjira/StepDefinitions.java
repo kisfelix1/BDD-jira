@@ -6,6 +6,9 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class StepDefinitions {
@@ -28,9 +31,12 @@ public class StepDefinitions {
     }
 
     @When("user enters proper passwords")
-    public void enterProperPassword() {
-        mainPage.fillUsername("automation16");
-        mainPage.fillPassword("CCAutoTest19.");
+    @ParameterizedTest
+    @CsvSource
+    @CsvFileSource(resources = "/mainpagelogin/login.csv", numLinesToSkip = 1)
+    public void enterProperPassword(String key, String username, String password) {
+        mainPage.fillUsername(username);
+        mainPage.fillPassword(password);
     }
 
     @And("clicks login button")
